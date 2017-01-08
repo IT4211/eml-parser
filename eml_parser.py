@@ -2,7 +2,7 @@
 """
 @Author : Seon Ho Lee (IT4211)
 @E-mail : rhdqor100@live.co.kr
-@
+@Description : Handling and parsing large amounts of eml files
 """
 
 import sys

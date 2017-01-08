@@ -3,7 +3,7 @@
 import os
 import sqlite3
 
-def set_sqlite(path):
+def create_sqlite(path):
     sqlname = path + "result.db"
     con = sqlite3.connect(sqlname)  # database create
     con.text_factory = str()
@@ -20,7 +20,7 @@ def set_sqlite(path):
     cursor.execute(sql)
 
 
-def out_sqlite(self, path):
+def ins_sqlite(self, path):
     sqlname = path + "result.db"
     con = sqlite3.connect(sqlname)  # database create
     con.text_factory = str()
