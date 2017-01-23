@@ -8,13 +8,15 @@ import re
 class parsing():
     def __init__(self, emlcontents):
         self.emlcontents = emlcontents
+        self.texthtml = ""
+        self.textplain = ""
 
     def ip_addr_parsing(self):
         reg_from_ip = r"([Ff]rom[:]? (((\d{1,2})|(1\d{2})|(2[0-4]\d)|(25[0-5]))\.){3}((1[0-9]{2})|(2[0-4]\d)|(25[0-5])|(\d{1,2})))"
         #reg_ip_addr = r"(((\d{1,2})|(1\d{2})|(2[0-4]\d)|(25[0-5]))\.){3}((1[0-9]{2})|(2[0-4]\d)|(25[0-5])|(\d{1,2}))"
         #reg_ip_addr = ((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))
         from_ip = re.findall(reg_from_ip, self.emlcontents)
-        self.ip_addr = from_ip
+        self.ip_addr = from_ip[0][0]
 
     """
     eml file timestamp format example
@@ -51,3 +53,14 @@ class parsing():
             elif part.get_content_type == 'text/html':
                 self.texthtml = part.get_payload()
                 # html 파일로 떨구는 부분 생각해보기!
+
+    def attach_file_parsing(self):
+        pass
+
+    def debug_print(self):
+        print "[debug]  ", self.ip_addr
+        print "[debug]  ", self.send_date
+        print "[debug]  ", self.recv_date
+        print "[debug]  ", self.subject
+        print "[debug]  ", self.textplain
+        print "[debug]  ", self.texthtml

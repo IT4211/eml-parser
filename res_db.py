@@ -9,8 +9,8 @@ class res_db():
         self.create_sqlite(path)
 
     def create_sqlite(self, path):
-        sqlname = path + "result.db"
-        con = sqlite3.connect(sqlname)  # database create
+        self.sqlname = path + "result.db"
+        con = sqlite3.connect(self.sqlname)  # database create
         con.text_factory = str()
         cursor = con.cursor()
 
@@ -24,9 +24,8 @@ class res_db():
               "hash text)"
         cursor.execute(sql)
 
-    def ins_sqlite(self, path, ):
-        sqlname = path + "result.db"
-        con = sqlite3.connect(sqlname)  # database create
+    def ins_sqlite(self, ):
+        con = sqlite3.connect(self.sqlname)  # database create
         con.text_factory = str()
         cursor = con.cursor()
 
