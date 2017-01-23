@@ -8,13 +8,9 @@ import res_db
 def eml_file_handling(thefile):
 
     if thefile.endswith('.eml'):
-        try:
+        #try:
             fp = open(thefile, "r")
             fileContents = fp.read()
-        except:
-            print '.eml file processing error'
-
-        finally:
             parsedData = parsing_engine.parsing(fileContents)
             parsedData.ip_addr_parsing() # 송신자 IP 주소 파싱
             parsedData.send_date_parsing() # 송신 날짜 파싱
@@ -23,6 +19,9 @@ def eml_file_handling(thefile):
             parsedData.content_parsing() # 본문 파싱
             parsedData.debug_print()
             fp.close()
+        #except:
+        #    print '[err] file processing error'
+
 
     elif thefile.endswith('.pst'):
         #.pst 변환 과정

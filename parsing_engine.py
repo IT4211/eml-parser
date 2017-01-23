@@ -27,19 +27,19 @@ class parsing():
     정규 표현식 더욱 정교하게 작성해야 됨!!!
     """
     def send_date_parsing(self):
-        regex_send_date = r"(\b[Dd]ate:) ( )?\d{2} (Dec) \d{4} (\d{2}:\d{2}:\d{2}) (-|\+)(\d{4})"
+        regex_send_date = r"(\b[Dd]ate: ?)(\d{2} \w{3} \d{4} \d{2}:\d{2}:\d{2} [\-\+]\d{4})"
         send_date = re.findall(regex_send_date, self.emlcontents)
         self.send_date = send_date
         # TODO: 유효한 날짜인가 검증하는 부분
 
     def recv_date_parsing(self):
-        regex_recv_date = r"(\b[Rr]eceived:)( )?((\(qmail )\d{4}( invoked from network\);))? \d{2} (Dec|Nov) \d{4} (\d{2}:\d{2}:\d{2}) (-|\+)(\d{4})"
+        regex_recv_date = r"(\bReceived: ?)(\([\w\d ]*\)\;)? (\d{2} \w{3} \d{4} \d{2}:\d{2}:\d{2} [\-\+]\d{4})"
         recv_date = re.findall(regex_recv_date, self.emlcontents)
         self.recv_date = recv_date
         #TODO: 유효한 날짜인가 검증하는 부분
 
     def subject_parsing(self):
-        regex_subject = r"(\bSubject: ).*"
+        regex_subject = r"(\bSubject: )([\w ].*)"
         subject = re.findall(regex_subject, self.emlcontents)
         self.subject = subject
         #TODO: 메일 제목이 base64인 경우를 판단!
@@ -47,6 +47,8 @@ class parsing():
     def content_parsing(self):
         msg = email.message_from_string(self.emlcontents)
         for part in msg.walk():
+            charset = part.get_content_charset()
+            print "[debug]  ", charset
             if part.get_content_type() == 'text/plain':
                 self.textplain = part.get_payload()
 
@@ -62,5 +64,5 @@ class parsing():
         print "[debug]  ", self.send_date
         print "[debug]  ", self.recv_date
         print "[debug]  ", self.subject
-        print "[debug]  ", self.textplain
-        print "[debug]  ", self.texthtml
+        #print "[debug]  ", self.textplain
+        #print "[debug]  ", self.texthtml
