@@ -10,6 +10,8 @@ import sys
 from PyQt4 import QtGui, QtCore
 from main_form import *
 import whois_search
+import eml_file_handler
+
 
 class parser_window(QtGui.QMainWindow):
     def __init__(self, parent = None):
@@ -24,8 +26,6 @@ class parser_window(QtGui.QMainWindow):
         whois_search.get_ip_info(ip_addr)
 
 
-
-
 if __name__=="__main__":
     app = QtGui.QApplication(sys.argv)
     eml_parser = parser_window()
@@ -34,4 +34,10 @@ if __name__=="__main__":
 
     # multi processing !!
     corePool = multiprocessing.Pool(processes=4)
+
+    # GUI를 통해서 폴더 명이 들어오면, 그 폴더명은 emldir 이라는 변수에 저장
+    # 그리고 그 폴더 내에 있는 목록을 얻어 와야한다.
+    # listOfFiles = os.listdir(emldir) ? glob ?
+    #
+    result = corePool.map(eml_file_handler, ())
 

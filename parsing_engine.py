@@ -2,7 +2,7 @@
 
 # 전송한 사람의 ip 주소 파싱, 발신일시, 수신일시, 제목, 본문
 
-import sqlite3
+import email
 import re
 
 class parsing():
@@ -10,12 +10,11 @@ class parsing():
         self.emlcontents = emlcontents
 
     def ip_addr_parsing(self):
-        reg_from_ip = r"[Ff]rom[:]? \b\d{1,3}[.]\d{1,3}[.]\d{1,3}[.]\d{1,3}\b"
-        reg_ip_addr = r"(((\d{1,2})|(1\d{2})|(2[0-4]\d)|(25[0-5]))\.){3}((1[0-9]{2})|(2[0-4]\d)|(25[0-5])|(\d{1,2}))"
+        reg_from_ip = r"([Ff]rom[:]? (((\d{1,2})|(1\d{2})|(2[0-4]\d)|(25[0-5]))\.){3}((1[0-9]{2})|(2[0-4]\d)|(25[0-5])|(\d{1,2})))"
+        #reg_ip_addr = r"(((\d{1,2})|(1\d{2})|(2[0-4]\d)|(25[0-5]))\.){3}((1[0-9]{2})|(2[0-4]\d)|(25[0-5])|(\d{1,2}))"
+        #reg_ip_addr = ((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))
         from_ip = re.findall(reg_from_ip, self.emlcontents)
-        ip_addr = re.findall(reg_ip_addr, from_ip[0])
-        if len(ip_addr): # 유효한 IP 주소가 파싱됬다면
-            self.ip_addr = ip_addr
+        self.ip_addr = from_ip
 
     """
     eml file timestamp format example
@@ -42,3 +41,13 @@ class parsing():
         subject = re.findall(regex_subject, self.emlcontents)
         self.subject = subject
         #TODO: 메일 제목이 base64인 경우를 판단!
+
+    def content_parsing(self):
+        msg = email.message_from_string(self.emlcontents)
+        for part in msg.walk():
+            if part.get_content_type() == 'text/plain':
+                self.textplain = part.get_payload()
+
+            elif part.get_content_type == 'text/html':
+                self.texthtml = part.get_payload()
+                # html 파일로 떨구는 부분 생각해보기!
