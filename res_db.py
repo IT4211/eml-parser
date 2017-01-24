@@ -1,15 +1,14 @@
 #-*- coding: utf-8 -*-
 
-import os
 import sqlite3
 
-class res_db():
+class sqlite_db():
 
-    def __init__(self, path):
-        self.create_sqlite(path)
+    def __init__(self, path, no):
+        self.create_sqlite(path, no)
 
-    def create_sqlite(self, path):
-        self.sqlname = path + "result.db"
+    def create_sqlite(self, path, no):
+        self.sqlname = path + "result_part("+ str(no) +").db"
         con = sqlite3.connect(self.sqlname)  # database create
         con.text_factory = str()
         cursor = con.cursor()

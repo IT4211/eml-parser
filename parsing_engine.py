@@ -28,20 +28,21 @@ class parsing():
     """
     def send_date_parsing(self):
         regex_send_date = r"(\b[Dd]ate: ?)(\d{2} \w{3} \d{4} \d{2}:\d{2}:\d{2} [\-\+]\d{4})"
-        send_date = re.findall(regex_send_date, self.emlcontents)
-        self.send_date = send_date
+        send_date = re.findall(regex_send_date, self.emlcontents)[-1]
+        print "[debug:parse]",  send_date, type(send_date)
+        self.send_date = send_date[-1]
         # TODO: 유효한 날짜인가 검증하는 부분
 
     def recv_date_parsing(self):
         regex_recv_date = r"(\bReceived: ?)(\([\w\d ]*\)\;)? (\d{2} \w{3} \d{4} \d{2}:\d{2}:\d{2} [\-\+]\d{4})"
-        recv_date = re.findall(regex_recv_date, self.emlcontents)
-        self.recv_date = recv_date
+        recv_date = re.findall(regex_recv_date, self.emlcontents)[-1]
+        self.recv_date = recv_date[-1]
         #TODO: 유효한 날짜인가 검증하는 부분
 
     def subject_parsing(self):
         regex_subject = r"(\bSubject: )([\w ].*)"
-        subject = re.findall(regex_subject, self.emlcontents)
-        self.subject = subject
+        subject = re.findall(regex_subject, self.emlcontents)[-1]
+        self.subject = subject[-1]
         #TODO: 메일 제목이 base64인 경우를 판단!
 
     def content_parsing(self):

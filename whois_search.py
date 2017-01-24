@@ -21,7 +21,7 @@ def ip_info_parsing(ip_info):
     print "[debug]", ip_info
     json_info = json.loads(ip_info)
 
-    if 'korean' in json_info['whois']:
+    if 'korean' in json_info['whois']: # 한국 IP 검색할 때
         countryCode = json_info['whois']['countryCode']
         orgName = json_info['whois']['korean']['user']['netinfo']['orgName']
         addr = json_info['whois']['korean']['user']['netinfo']['addr']
@@ -38,13 +38,13 @@ def ip_info_parsing(ip_info):
         res += "RegDate : " + regDate + "\n"
         res += "Name : " + name + "\n"
         res += "Phone : " + phone + "\n"
-        res += "Email : " + email + "\n"
-    else:
+        res += "Email : " + email
+    else: # 그외 국가 IP 검색할 때
         countryCode = json_info['whois']['countryCode']
         registry = json_info['whois']['registry']
 
         res = "CountryCode : " + countryCode + "\n"
-        res += "Registry : " + registry + "\n"
+        res += "Registry : " + registry
 
 
 
