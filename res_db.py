@@ -4,22 +4,22 @@ import sqlite3
 
 class sqlite_db():
 
-    def __init__(self, path, no):
-        self.create_sqlite(path, no)
+    def __init__(self, path):
+        self.create_sqlite(path)
 
-    def create_sqlite(self, path, no):
-        self.sqlname = path + "result_part("+ str(no) +").db"
+    def create_sqlite(self, path):
+        self.sqlname = path + "result.db"
         con = sqlite3.connect(self.sqlname)  # database create
         con.text_factory = str()
         cursor = con.cursor()
 
         sql = "CREATE TABLE result(" \
-              "IP Address text, " \
+              "ip_address text, " \
               "send_date text, " \
               "recv_date text, " \
               "subject text, " \
-              "body text, " \
-              "file_name text, " \
+              "contents text, " \
+              "attach_file text, " \
               "hash text)"
         cursor.execute(sql)
 
